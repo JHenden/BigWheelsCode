@@ -1,7 +1,7 @@
 %% Valid T and r combinations for Fast Ferris Wheels
 
 % Define parameters
-T_values = linspace(5, 10, 1000);  % Possible values for period time T
+w_values = linspace(0.70, 1.25, 1000);  % Possible values for period time T
 r_values = linspace(5, 30, 1000);  % Possible values for radius r
 g = 9.81;                       % Gravitational acceleration in m/s^2
 
@@ -9,16 +9,16 @@ g = 9.81;                       % Gravitational acceleration in m/s^2
 t1 = 25;
 t2 = 50;
 t3 = 75;
+t = linspace(0, t3, 1000);  
 
 % Initialize an array to store valid T and r combinations
 valid_combinations = [];
 labels = [];
 
 % Loop over all combinations of T and r
-for T = T_values
+for w_max = w_values
     for r = r_values
         % Calculate maximum angular velocity
-        w_max = 2 * pi / T;
         
         % Define the piecewise function for angular velocity over time
         f = @(t) (t >= 0 & t < t1) .* (w_max / t1 .* t) + ...
@@ -57,24 +57,23 @@ for T = T_values
            (abs(Gz_max - 6) < 0.001 && Gx_max < 6 && Gx_min > -2 && Gz_min > -2) || ...
            (abs(Gz_min + 2) < 0.001 && Gx_max < 6 && Gx_min > -2 && Gz_max < 6)
             % Store the valid combination of T and r
-            valid_combinations = [valid_combinations; T, r];
+            valid_combinations = [valid_combinations; w_max, r];
         end
     end
 end
 
 % Display the valid combinations of T and r
 if isempty(valid_combinations)
-    disp('No valid combinations of T and r found.');
+    disp('No valid combinations of w_max and r found.');
 else
-    disp('Valid combinations of T and r:');
-    disp(array2table(valid_combinations, 'VariableNames', {'T', 'r'}));
+    disp('Valid combinations of w_max and r:');
+    disp(array2table(valid_combinations, 'VariableNames', {'w_max', 'r'}));
     
     % Plot the valid combinations
     figure;
     scatter(valid_combinations(:, 1), valid_combinations(:, 2), 20, 'filled');
-    xlabel('Period Time T (s)', 'FontSize', 28);
+    xlabel('Angular velocity $\omega_{\theta}$ (rad/s)', 'Interpreter', 'latex', 'FontSize', 28);
     ylabel('Radius r (m)', 'FontSize', 28);
     set(gca, 'FontSize', 18);
-    yticks(6:2:30);
     grid on;
 end
