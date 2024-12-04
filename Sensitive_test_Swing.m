@@ -47,7 +47,7 @@ for i = 1:length(v_values)
         vw = get_vw(v_max, t1, t2, t3, dom);
         
         % Assign the differential equation to a chebop on that domain.
-        N = chebop(@(t, u) M * l * diff(u, 2) + M * g * sin(u) - 0.5 * A0 * Cd * ro * (vw.^2) .* cos(u-angle) .* sin((u + 4 ./ pi)), dom);
+        N = chebop(@(t, u) M * l * diff(u, 2) + M * g * sin(u) - 0.5 * sqrt(2) * A0 * Cd * ro * (vw.^2) .* cos(u-angle) .* sin((u + 4 ./ pi)), dom);
         
         % Set up the rhs of the differential equation so that N(u) = rhs.
         rhs = 0;
