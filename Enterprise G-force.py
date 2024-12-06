@@ -13,6 +13,7 @@ T_total = 100  # Total simulation time in seconds
 t = np.linspace(0, T_total, 8000)  # Time array
 l2 = 0.7
 
+# Define tilt angle alpha
 def alpha(t):
     return np.piecewise(
         t,
@@ -30,7 +31,7 @@ def alpha(t):
         ]
     )
 
-
+#Define yaw angular velocity
 def omega_theta_t(t):
     return np.piecewise(
         t,
@@ -42,6 +43,7 @@ def omega_theta_t(t):
          lambda t: omega_theta_max * (1 - (t - 80) / 20)]
     )
 
+# Define pitch angular velocity
 def omega_phi_t(t):
     return np.piecewise(
         t,
@@ -51,6 +53,7 @@ def omega_phi_t(t):
         0
     )
 
+# Define pitch angle
 def phi(t):
     return np.piecewise(
         t,
